@@ -27,12 +27,6 @@ cp .env.example .env
 flask seed-admin
 ```
 
-This creates a default admin account:
-- **Email**: admin@unicracy.com
-- **Password**: admin123
-
-> ⚠️ Change this password in production!
-
 ### 4. Run the Application
 
 ```bash
