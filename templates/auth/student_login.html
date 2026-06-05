@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Login — UNICRACY{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="auth-container">
+    <!-- Left Branding Panel -->
+    <div class="auth-brand">
+        <div class="auth-shapes">
+            <div class="auth-shape auth-shape-1"></div>
+            <div class="auth-shape auth-shape-2"></div>
+            <div class="auth-shape auth-shape-3"></div>
+            <div class="auth-shape auth-shape-4"></div>
+            <div class="auth-shape auth-shape-5"></div>
+        </div>
+        <div class="auth-particles">
+            <div class="auth-particle"></div>
+            <div class="auth-particle"></div>
+            <div class="auth-particle"></div>
+            <div class="auth-particle"></div>
+            <div class="auth-particle"></div>
+            <div class="auth-particle"></div>
+        </div>
+        <div class="auth-brand-content">
+            <!-- Inline SVG Illustration: Ballot Box -->
+            <div class="auth-illustration">
+                <div class="auth-illustration-glow"></div>
+                <svg viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Ballot Box Body -->
+                    <rect x="50" y="80" width="140" height="100" rx="12" fill="url(#boxGrad)" stroke="rgba(139,92,246,0.4)" stroke-width="1.5"/>
+                    <!-- Box Slot -->
+                    <rect x="95" y="80" width="50" height="6" rx="3" fill="#1e1b4b" stroke="rgba(139,92,246,0.5)" stroke-width="1"/>
+                    <!-- Ballot Paper floating in -->
+                    <g>
+                        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-8; 0,0" dur="3s" repeatCount="indefinite"/>
+                        <rect x="100" y="40" width="40" height="50" rx="4" fill="url(#paperGrad)" stroke="rgba(6,182,212,0.4)" stroke-width="1"/>
+                        <line x1="110" y1="52" x2="130" y2="52" stroke="rgba(139,92,246,0.6)" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="110" y1="60" x2="126" y2="60" stroke="rgba(6,182,212,0.5)" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="110" y1="68" x2="122" y2="68" stroke="rgba(139,92,246,0.4)" stroke-width="2" stroke-linecap="round"/>
+                        <!-- Checkmark -->
+                        <polyline points="112,74 116,78 124,70" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                            <animate attributeName="stroke-dasharray" from="0,20" to="20,0" dur="2s" repeatCount="indefinite"/>
+                        </polyline>
+                    </g>
+                    <!-- Shield icon on box -->
+                    <path d="M120 120 L120 108 L110 105 L120 100 L130 105 L120 108 Z" fill="url(#shieldGrad)" opacity="0.7"/>
+                    <circle cx="120" cy="140" r="8" fill="none" stroke="rgba(139,92,246,0.3)" stroke-width="1.5">
+                        <animate attributeName="r" values="8;12;8" dur="3s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" repeatCount="indefinite"/>
+                    </circle>
+                    <!-- Floating stars -->
+                    <circle cx="40" cy="60" r="2" fill="#a78bfa" opacity="0.6">
+                        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="200" cy="50" r="2.5" fill="#22d3ee" opacity="0.5">
+                        <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2.5s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="185" cy="130" r="1.5" fill="#ec4899" opacity="0.5">
+                        <animate attributeName="opacity" values="0.5;0.15;0.5" dur="1.8s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="55" cy="150" r="2" fill="#fbbf24" opacity="0.4">
+                        <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3s" repeatCount="indefinite"/>
+                    </circle>
+                    <!-- Gradients -->
+                    <defs>
+                        <linearGradient id="boxGrad" x1="50" y1="80" x2="190" y2="180">
+                            <stop offset="0%" stop-color="rgba(139,92,246,0.25)"/>
+                            <stop offset="100%" stop-color="rgba(6,182,212,0.15)"/>
+                        </linearGradient>
+                        <linearGradient id="paperGrad" x1="100" y1="40" x2="140" y2="90">
+                            <stop offset="0%" stop-color="rgba(255,255,255,0.12)"/>
+                            <stop offset="100%" stop-color="rgba(139,92,246,0.08)"/>
+                        </linearGradient>
+                        <linearGradient id="shieldGrad" x1="110" y1="100" x2="130" y2="120">
+                            <stop offset="0%" stop-color="#a78bfa"/>
+                            <stop offset="100%" stop-color="#22d3ee"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <h1 class="auth-brand-logo gradient-text">UNICRACY</h1>
+            <p class="auth-brand-tagline">One University. One Election.</p>
+            <p class="auth-brand-description">
+                Sign in to participate in campus elections, cast your vote,
+                and make your voice heard. Every vote counts.
+            </p>
+            <div class="auth-features">
+                <span class="auth-feature-pill">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Secure Voting
+                </span>
+                <span class="auth-feature-pill">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 4 12 14.01 9 11.01"/><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/></svg>
+                    Verified
+                </span>
+                <span class="auth-feature-pill">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    Live Results
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Form Panel -->
+    <div class="auth-form-panel">
+        <div class="auth-form-wrapper">
+            <div class="auth-form-card">
+                <div class="auth-form-header">
+                    <div class="auth-form-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <h2>Welcome Back</h2>
+                    <p>Sign in to your student account</p>
+                </div>
+
+                {% if get_flashed_messages() %}
+                <div class="flash-messages">
+                    {% for category, message in get_flashed_messages(with_categories=true) %}
+                    <div class="flash-message flash-{{ category }}">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            {% if category == 'error' %}
+                            <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            {% elif category == 'success' %}
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            {% else %}
+                            <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
+                            {% endif %}
+                        </svg>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="POST" action="{{ url_for('auth.student_login') }}" id="login-form">
+                    <div class="form-group">
+                        <input type="email" name="email" id="email" class="form-input" placeholder=" "
+                               value="{{ form_data.email if form_data else '' }}" required>
+                        <label for="email" class="form-label">Email Address</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" name="password" id="password" class="form-input" placeholder=" " required minlength="6">
+                        <label for="password" class="form-label">Password</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="submit-btn">
+                        <span class="btn-text">Sign In</span>
+                        <div class="spinner hidden" id="submit-spinner"></div>
+                    </button>
+                </form>
+
+                <p class="auth-form-footer">
+                    Don't have an account? <a href="{{ url_for('auth.student_signup') }}">Create one</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', function() {
+        const btn = document.getElementById('submit-btn');
+        const spinner = document.getElementById('submit-spinner');
+        btn.classList.add('btn-loading');
+        spinner.classList.remove('hidden');
+    });
+</script>
+{% endblock %}

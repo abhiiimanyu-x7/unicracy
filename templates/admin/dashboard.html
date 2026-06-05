@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}Control Room — UNICRACY Admin{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="dashboard-layout">
+    <button class="mobile-menu-toggle" id="mobile-toggle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-logo gradient-text-gold">UNICRACY</span>
+            <span class="sidebar-role-badge admin-badge">Admin</span>
+        </div>
+        <div class="sidebar-section-label">Control Room</div>
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('admin.dashboard') }}" class="sidebar-item active">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                Dashboard
+            </a>
+            <a href="{{ url_for('admin.elections') }}" class="sidebar-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Elections
+            </a>
+            <a href="{{ url_for('admin.create_election_route') }}" class="sidebar-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                Create Election
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="avatar avatar-sm" style="background: linear-gradient(135deg, var(--gold), var(--amber));">A</div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">{{ session.user_name }}</div>
+                    <div class="sidebar-user-email">{{ session.user_email }}</div>
+                </div>
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout" title="Logout">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                </a>
+            </div>
+        </div>
+    </aside>
+    
+    <main class="main-content page-content">
+        <div class="page-header">
+            <h1>Election Control Room</h1>
+            <p>Overview of all elections, candidates, and voting activity</p>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card stat-card-gradient stat-purple">
+                <div class="stat-icon" style="background: rgba(108, 63, 197, 0.15); color: var(--purple-light);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                </div>
+                <div class="stat-number gradient-text">{{ stats.total_elections }}</div>
+                <div class="stat-label">Total Elections</div>
+            </div>
+            <div class="stat-card stat-card-gradient stat-cyan">
+                <div class="stat-icon" style="background: rgba(0, 212, 255, 0.15); color: var(--cyan);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <div class="stat-number" style="color: var(--cyan);">{{ stats.active_elections }}</div>
+                <div class="stat-label">Active Elections</div>
+            </div>
+            <div class="stat-card stat-card-gradient stat-amber">
+                <div class="stat-icon" style="background: rgba(245, 158, 11, 0.15); color: var(--amber);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
+                <div class="stat-number" style="color: var(--amber);">{{ stats.total_candidates }}</div>
+                <div class="stat-label">Total Candidates</div>
+            </div>
+            <div class="stat-card stat-card-gradient stat-green">
+                <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--green);">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <div class="stat-number" style="color: var(--green);">{{ stats.total_votes }}</div>
+                <div class="stat-label">Total Votes</div>
+            </div>
+        </div>
+        
+        <!-- Election Timeline -->
+        {% if elections %}
+        <h3 class="mb-16" style="font-size: 1.1rem;">Election Timeline</h3>
+        <div class="timeline-scroll">
+            {% for election in elections %}
+            <div class="timeline-card glass-card">
+                <div class="flex items-center justify-between mb-8">
+                    <span class="badge badge-{{ election.status }}" style="font-size: 0.65rem;">{{ election.status | capitalize }}</span>
+                </div>
+                <h4>{{ election.title }}</h4>
+                <p>{{ election.post_name }}</p>
+                <p style="margin-top: var(--space-8);">{{ election.department }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <!-- Two Column: Activity + Quick Actions -->
+        <div class="two-col">
+            <div class="two-col-section glass-card-static">
+                <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--purple-light)" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    Recent Activity
+                </h3>
+                {% if recent_activity %}
+                <div class="activity-feed">
+                    {% for item in recent_activity %}
+                    <div class="activity-item">
+                        <div class="activity-dot"></div>
+                        <span class="activity-text">Vote cast in <strong>{{ item.election_title }}</strong></span>
+                        <span class="activity-time">{{ item.voted_at.strftime('%b %d, %H:%M') }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted" style="padding: var(--space-16) 0;">No recent voting activity.</p>
+                {% endif %}
+            </div>
+            
+            <div class="two-col-section glass-card-static">
+                <h3>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    Quick Actions
+                </h3>
+                <div class="quick-actions">
+                    <a href="{{ url_for('admin.create_election_route') }}" class="quick-action-card">
+                        <div class="quick-action-icon icon-purple">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        </div>
+                        <div class="quick-action-info">
+                            <h4>Create Election</h4>
+                            <p>Set up a new campus election</p>
+                        </div>
+                    </a>
+                    <a href="{{ url_for('admin.elections') }}" class="quick-action-card">
+                        <div class="quick-action-icon icon-cyan">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                        </div>
+                        <div class="quick-action-info">
+                            <h4>Manage Elections</h4>
+                            <p>View and manage all elections</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    const toggle = document.getElementById('mobile-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    toggle.addEventListener('click', () => { sidebar.classList.toggle('open'); overlay.classList.toggle('active'); });
+    overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('active'); });
+</script>
+{% endblock %}

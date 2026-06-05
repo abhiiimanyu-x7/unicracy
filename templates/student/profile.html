@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile — UNICRACY{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="dashboard-layout">
+    <button class="mobile-menu-toggle" id="mobile-toggle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+    </button>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-logo gradient-text">UNICRACY</span>
+            <span class="sidebar-role-badge">Student</span>
+        </div>
+        <div class="sidebar-section-label">Navigation</div>
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('student.dashboard') }}" class="sidebar-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                Dashboard
+            </a>
+            <a href="{{ url_for('student.elections') }}" class="sidebar-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                Elections
+            </a>
+            <a href="{{ url_for('student.profile') }}" class="sidebar-item active">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                Profile
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="avatar avatar-sm">{{ session.user_name[0] | upper }}</div>
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">{{ session.user_name }}</div>
+                    <div class="sidebar-user-email">{{ session.user_email }}</div>
+                </div>
+                <a href="{{ url_for('auth.logout') }}" class="sidebar-logout" title="Logout">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                </a>
+            </div>
+        </div>
+    </aside>
+    
+    <main class="main-content page-content">
+        <div class="page-header">
+            <h1>My Profile</h1>
+            <p>Your account information and voting history</p>
+        </div>
+        
+        <div class="profile-grid">
+            <!-- Profile Info -->
+            <div class="profile-info-card glass-card-static">
+                <div class="profile-avatar-large">{{ user.name[0] | upper }}</div>
+                <h2 class="profile-name">{{ user.name }}</h2>
+                <p class="profile-email">{{ user.email }}</p>
+                
+                <div class="profile-details">
+                    <div class="profile-detail-item">
+                        <span class="profile-detail-label">Roll Number</span>
+                        <span class="profile-detail-value">{{ user.roll_no }}</span>
+                    </div>
+                    <div class="profile-detail-item">
+                        <span class="profile-detail-label">Department</span>
+                        <span class="profile-detail-value">{{ user.department }}</span>
+                    </div>
+                    <div class="profile-detail-item">
+                        <span class="profile-detail-label">Year</span>
+                        <span class="profile-detail-value">{{ user.year }}</span>
+                    </div>
+                    <div class="profile-detail-item">
+                        <span class="profile-detail-label">Joined</span>
+                        <span class="profile-detail-value">{{ user.created_at.strftime('%b %d, %Y') }}</span>
+                    </div>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="profile-stat">
+                        <div class="profile-stat-number gradient-text">{{ voting_history | length }}</div>
+                        <div class="profile-stat-label">Elections Participated</div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="profile-stat-number gradient-text">{{ voting_history | length }}</div>
+                        <div class="profile-stat-label">Votes Cast</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Voting History & Edit -->
+            <div class="flex-col gap-24">
+                <!-- Edit Profile -->
+                <div class="form-card glass-card-static">
+                    <h3 class="mb-24" style="font-size: 1.1rem;">Edit Profile</h3>
+                    <form method="POST" action="{{ url_for('student.profile') }}">
+                        <div class="form-group">
+                            <input type="text" name="name" id="name" class="form-input" placeholder=" " value="{{ user.name }}" required>
+                            <label for="name" class="form-label">Full Name</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="department" class="form-select-label">Department</label>
+                            <select name="department" id="department" class="form-select">
+                                {% for dept in departments %}
+                                <option value="{{ dept }}" {{ 'selected' if user.department == dept else '' }}>{{ dept }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="year" class="form-select-label">Year</label>
+                            <select name="year" id="year" class="form-select">
+                                {% for y in years %}
+                                <option value="{{ y }}" {{ 'selected' if user.year == y else '' }}>{{ y }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </form>
+                </div>
+                
+                <!-- Voting History -->
+                <div class="history-card glass-card-static">
+                    <h3 class="mb-24" style="font-size: 1.1rem;">Voting History</h3>
+                    {% if voting_history %}
+                    <div class="history-list">
+                        {% for item in voting_history %}
+                        <div class="history-item">
+                            <div class="history-item-info">
+                                <h4>{{ item.election.title }}</h4>
+                                <p class="history-item-date">{{ item.voted_at.strftime('%b %d, %Y at %I:%M %p') }}</p>
+                            </div>
+                            <span class="badge badge-{{ item.election.status }}">{{ item.election.status | capitalize }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state" style="padding: var(--space-24) 0;">
+                        <p class="text-muted">You haven't participated in any elections yet.</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+    const toggle = document.getElementById('mobile-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    toggle.addEventListener('click', () => { sidebar.classList.toggle('open'); overlay.classList.toggle('active'); });
+    overlay.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.classList.remove('active'); });
+</script>
+{% endblock %}

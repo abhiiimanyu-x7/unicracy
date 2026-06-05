@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UNICRACY — A Modern Campus Election & Representation Platform. One University. One Election.">
+    <title>{% block title %}UNICRACY{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Design System -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    {% block body %}
+    <div class="page-content">
+        {% block content %}
+        {% if error %}
+        <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 2rem;">
+            <div>
+                <h1 class="gradient-text" style="font-size: 6rem; margin-bottom: 1rem;">{{ error }}</h1>
+                <p style="color: var(--text-secondary); font-size: 1.2rem; margin-bottom: 2rem;">{{ error_message }}</p>
+                <a href="{{ url_for('landing') }}" class="btn btn-primary">Back to Home</a>
+            </div>
+        </div>
+        {% endif %}
+        {% endblock %}
+    </div>
+    {% endblock %}
+    
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+    
+    <!-- Core JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    
+    {% block scripts %}{% endblock %}
+    
+    <!-- Flash messages as toasts -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div id="flash-messages-data" style="display: none;">
+        {% for category, message in messages %}
+        <span class="flash-data" data-category="{{ category }}" data-message="{{ message }}"></span>
+        {% endfor %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.flash-data').forEach(function(el) {
+                showToast(el.getAttribute('data-message'), el.getAttribute('data-category'));
+            });
+        });
+    </script>
+    {% endif %}
+    {% endwith %}
+</body>
+</html>
