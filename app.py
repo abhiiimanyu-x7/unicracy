@@ -99,27 +99,20 @@ def create_app():
     def server_error(e):
         return render_template('base.html', error=500, error_message='Internal server error'), 500
     
-    # ── CLI: Seed Admin ──
-    @app.cli.command('seed-admin')
-    def seed_admin():
-        """Create default admin account."""
-        existing = db.users.find_one({'email': 'admin@unicracy.com'})
-        if existing:
-            click.echo('Admin account already exists.')
-            return
-        
+    existing = db.users.find_one({'email': 'admin@unicracy.com'})
+
+    if not existing:
         admin = {
-            'name': 'Admin',
-            'email': 'admin@unicracy.com',
-            'roll_no': None,
-            'department': 'Administration',
-            'year': None,
-            'password_hash': generate_password_hash('admin123'),
-            'role': 'admin',
-            'created_at': datetime.utcnow(),
-        }
-        db.users.insert_one(admin)
-        click.echo('[OK] Admin account created: admin@unicracy.com / admin123')
+        'name': 'Admin',
+        'email': 'admin@unicracy.com',
+        'roll_no': None,
+        'department': 'Administration',
+        'year': None,
+        'password_hash': generate_password_hash('admin123123'),
+        'role': 'admin',
+        'created_at': datetime.utcnow(),
+    }
+    db.users.insert_one(admin)
     
     return app
 
