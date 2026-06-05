@@ -11,11 +11,12 @@ class Config:
     DEBUG = os.getenv('FLASK_DEBUG', '0') == '1'
     
     # Email config
-    EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
-    EMAIL_PORT = int(os.getenv('EMAIL_PORT', 465))
-    EMAIL_USER = os.getenv('EMAIL_USER', '')
-    EMAIL_PASS = os.getenv('EMAIL_PASS', '')
-    EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', 'true').lower() == 'true'
+    EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
+    EMAIL_PORT = int(os.getenv("EMAIL_PORT", 465))
+    EMAIL_USER = os.getenv("EMAIL_USER")
+    EMAIL_PASS = os.getenv("EMAIL_PASS")
+    EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "true").lower() == "true"
+    ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
     
     # OTP config
     OTP_EXPIRY_SECONDS = int(os.getenv('OTP_EXPIRY_SECONDS', 300))

@@ -43,13 +43,18 @@ def send_otp_email(to_email, otp):
 
     try:
         if Config.EMAIL_USE_SSL:
-            server = smtplib.SMTP_SSL(Config.EMAIL_HOST, Config.EMAIL_PORT)
+            server = smtplib.SMTP_SSL(
+                Config.EMAIL_HOST,
+                int(Config.EMAIL_PORT),
+                timeout=10
+            )
         else:
             server = smtplib.SMTP(Config.EMAIL_HOST, Config.EMAIL_PORT)
             server.starttls()
             
         server.login(Config.EMAIL_USER, Config.EMAIL_PASS)
         server.send_message(msg)
+        
         server.quit()
         return True
     except Exception as e:
