@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: unicracy
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn "app:create_app()"
+    envVars:
+      - key: FLASK_DEBUG
+        value: "0"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: MONGODB_URI
+        placeholder: "Your MongoDB Atlas connection URI"
+      - key: GOOGLE_CLIENT_ID
+        placeholder: "Optional: Your Google OAuth Client ID"
+      - key: GOOGLE_CLIENT_SECRET
+        placeholder: "Optional: Your Google OAuth Client Secret"
+      - key: GOOGLE_REDIRECT_URI
+        placeholder: "Optional: https://your-app.onrender.com/auth/google/callback"
+      - key: EMAIL_HOST
+        placeholder: "Optional: SMTP host e.g. smtp.gmail.com"
+      - key: EMAIL_PORT
+        placeholder: "Optional: SMTP port e.g. 465"
+      - key: EMAIL_USER
+        placeholder: "Optional: SMTP email address"
+      - key: EMAIL_PASS
+        placeholder: "Optional: SMTP password or app password"
