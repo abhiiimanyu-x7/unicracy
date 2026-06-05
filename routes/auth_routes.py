@@ -51,13 +51,20 @@ def student_signup():
         errors = []
         if not email.endswith('@kmclu.ac.in'):
             errors.append('Only @kmclu.ac.in emails are allowed.')
-        if not all([name, email, roll_no, department, year, password, otp_input]):
+        
+        required_fields = [name, email, roll_no, department, year, password]
+        if not Config.BYPASS_OTP:
+            required_fields.append(otp_input)
+            
+        if not all(required_fields):
             errors.append('All fields are required.')
         
-        db = get_db()
-        otp_record = db.otps.find_one({'email': email})
-        if not otp_record or otp_record.get('otp') != otp_input:
-            errors.append('Invalid or expired OTP.')
+        if not Config.BYPASS_OTP:
+            db = get_db()
+            otp_record = db.otps.find_one({'email': email})
+            if not otp_record or otp_record.get('otp') != otp_input:
+                errors.append('Invalid or expired OTP.')
+                
         if password != confirm_password:
             errors.append('Passwords do not match.')
         if len(password) < 6:
@@ -73,7 +80,8 @@ def student_signup():
             return render_template('auth/student_signup.html',
                                    departments=Config.DEPARTMENTS,
                                    years=Config.YEARS,
-                                   form_data=request.form)
+                                   form_data=request.form,
+                                   bypass_otp=Config.BYPASS_OTP)
         
         # Create user
         user = create_user({
@@ -90,7 +98,8 @@ def student_signup():
     
     return render_template('auth/student_signup.html',
                            departments=Config.DEPARTMENTS,
-                           years=Config.YEARS)
+                           years=Config.YEARS,
+                           bypass_otp=Config.BYPASS_OTP)
 
 
 @auth_bp.route('/student/login', methods=['GET', 'POST'])

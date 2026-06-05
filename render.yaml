@@ -17,6 +17,8 @@ services:
         placeholder: "Optional: Your Google OAuth Client Secret"
       - key: GOOGLE_REDIRECT_URI
         placeholder: "Optional: https://your-app.onrender.com/auth/google/callback"
+      - key: BYPASS_OTP
+        value: "true"
       - key: EMAIL_HOST
         placeholder: "Optional: SMTP host e.g. smtp.gmail.com"
       - key: EMAIL_PORT
