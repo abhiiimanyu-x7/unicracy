@@ -8,7 +8,7 @@ from services.election_service import (
 from services.vote_service import (
     get_results, get_voter_count, get_participation_rate, get_recent_votes
 )
-from services.user_service import get_total_students
+from services.user_service import get_total_students, change_admin_password, get_user_by_id
 from config import Config
 
 admin_bp = Blueprint('admin', __name__)
@@ -210,3 +210,41 @@ def delete_candidate_route(election_id, candidate_id):
         flash('Candidate removed.', 'success')
     
     return redirect(url_for('admin.manage_candidates', election_id=election_id))
+
+
+@admin_bp.route('/admin/profile', methods=['GET', 'POST'])
+@admin_required
+def profile():
+    """Admin profile page with password change."""
+    user = get_user_by_id(session['user_id'])
+
+    if request.method == 'POST':
+        current_password = request.form.get('current_password', '')
+        new_password = request.form.get('new_password', '')
+        confirm_password = request.form.get('confirm_password', '')
+
+        if not all([current_password, new_password, confirm_password]):
+            flash('All password fields are required.', 'error')
+            return render_template('admin/profile.html', user=user)
+
+        if new_password != confirm_password:
+            flash('New passwords do not match.', 'error')
+            return render_template('admin/profile.html', user=user)
+
+        result = change_admin_password(session['user_id'], current_password, new_password)
+
+        if result['success']:
+            flash(result['message'], 'success')
+            return redirect(url_for('admin.profile'))
+        else:
+            flash(result['message'], 'error')
+            return render_template('admin/profile.html', user=user)
+
+    return render_template('admin/profile.html', user=user)
+
+
+@admin_bp.route('/admin/change-password', methods=['GET', 'POST'])
+@admin_required
+def change_password():
+    """Redirect to profile page (password change is now part of profile)."""
+    return redirect(url_for('admin.profile'))

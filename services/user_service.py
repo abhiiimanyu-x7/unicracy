@@ -55,6 +55,12 @@ def get_user_by_email(email):
     return db.users.find_one({'email': email.strip().lower()})
 
 
+def get_user_by_email_and_role(email, role):
+    """Find a user by email and role."""
+    db = get_db()
+    return db.users.find_one({'email': email.strip().lower(), 'role': role})
+
+
 def get_user_by_roll_no(roll_no):
     """Check if a user exists with this roll number."""
     db = get_db()
@@ -86,3 +92,51 @@ def get_total_students():
     """Get total number of student users."""
     db = get_db()
     return db.users.count_documents({'role': 'student'})
+
+
+def change_admin_password(user_id, current_password, new_password):
+    """Change an admin user's password after verifying the current one.
+
+    Returns a dict with 'success' (bool) and 'message' (str).
+    """
+    user = get_user_by_id(user_id)
+    if not user or user.get('role') != 'admin':
+        return {'success': False, 'message': 'Admin user not found.'}
+
+    if not check_password_hash(user['password_hash'], current_password):
+        return {'success': False, 'message': 'Current password is incorrect.'}
+
+    if len(new_password) < 6:
+        return {'success': False, 'message': 'New password must be at least 6 characters.'}
+
+    db = get_db()
+    db.users.update_one(
+        {'_id': ObjectId(user_id)},
+        {'$set': {'password_hash': generate_password_hash(new_password)}}
+    )
+
+    return {'success': True, 'message': 'Password changed successfully!'}
+
+
+def change_student_password(user_id, current_password, new_password):
+    """Change a student user's password after verifying the current one.
+
+    Returns a dict with 'success' (bool) and 'message' (str).
+    """
+    user = get_user_by_id(user_id)
+    if not user or user.get('role') != 'student':
+        return {'success': False, 'message': 'Student user not found.'}
+
+    if not check_password_hash(user['password_hash'], current_password):
+        return {'success': False, 'message': 'Current password is incorrect.'}
+
+    if len(new_password) < 6:
+        return {'success': False, 'message': 'New password must be at least 6 characters.'}
+
+    db = get_db()
+    db.users.update_one(
+        {'_id': ObjectId(user_id)},
+        {'$set': {'password_hash': generate_password_hash(new_password)}}
+    )
+
+    return {'success': True, 'message': 'Password changed successfully!'}

@@ -8,7 +8,7 @@ from services.vote_service import (
     cast_vote, has_voted, get_results, get_user_voting_history,
     get_voter_count, get_participation_rate
 )
-from services.user_service import get_user_by_id, update_profile
+from services.user_service import get_user_by_id, update_profile, change_student_password
 from config import Config
 
 student_bp = Blueprint('student', __name__)
@@ -129,24 +129,44 @@ def profile():
     user = get_user_by_id(session['user_id'])
     
     if request.method == 'POST':
-        name = request.form.get('name', '').strip()
-        department = request.form.get('department', '')
-        year = request.form.get('year', '')
-        
-        if name:
-            updated_user = update_profile(session['user_id'], {
-                'name': name,
-                'department': department,
-                'year': year,
-            })
-            session['user_name'] = updated_user['name']
-            session['user_department'] = updated_user.get('department', '')
-            session['user_year'] = updated_user.get('year', '')
-            flash('Profile updated successfully.', 'success')
+        # Check if this is a profile update or password change
+        form_type = request.form.get('form_type', 'profile')
+
+        if form_type == 'password':
+            current_password = request.form.get('current_password', '')
+            new_password = request.form.get('new_password', '')
+            confirm_password = request.form.get('confirm_password', '')
+
+            if not all([current_password, new_password, confirm_password]):
+                flash('All password fields are required.', 'error')
+            elif new_password != confirm_password:
+                flash('New passwords do not match.', 'error')
+            else:
+                result = change_student_password(session['user_id'], current_password, new_password)
+                flash(result['message'], 'success' if result['success'] else 'error')
+
+            return redirect(url_for('student.profile'))
+
         else:
-            flash('Name is required.', 'error')
-        
-        return redirect(url_for('student.profile'))
+            # Profile update
+            name = request.form.get('name', '').strip()
+            department = request.form.get('department', '')
+            year = request.form.get('year', '')
+
+            if name:
+                updated_user = update_profile(session['user_id'], {
+                    'name': name,
+                    'department': department,
+                    'year': year,
+                })
+                session['user_name'] = updated_user['name']
+                session['user_department'] = updated_user.get('department', '')
+                session['user_year'] = updated_user.get('year', '')
+                flash('Profile updated successfully.', 'success')
+            else:
+                flash('Name is required.', 'error')
+
+            return redirect(url_for('student.profile'))
     
     voting_history = get_user_voting_history(session['user_id'])
     

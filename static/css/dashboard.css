@@ -1360,6 +1360,296 @@
 }
 
 
+/* Admin Profile Page */
+.admin-profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-24);
+    align-items: start;
+}
+
+.admin-profile-card {
+    padding: var(--space-40);
+    text-align: center;
+}
+
+.admin-profile-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--amber));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin: 0 auto var(--space-20);
+    box-shadow: 0 8px 32px rgba(234, 179, 8, 0.3);
+}
+
+.admin-profile-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: var(--space-4);
+}
+
+.admin-profile-email {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-8);
+}
+
+.admin-profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    text-align: left;
+    padding-top: var(--space-20);
+    margin-top: var(--space-20);
+    border-top: 1px solid var(--glass-border);
+}
+
+.admin-profile-detail {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.admin-profile-detail-label {
+    color: var(--text-muted);
+}
+
+.admin-profile-detail-value {
+    font-weight: 600;
+}
+
+
+/* Password Change Section (shared by admin & student) */
+.pw-section-card {
+    padding: var(--space-32);
+    position: relative;
+    overflow: hidden;
+}
+
+.pw-section-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--purple), var(--cyan));
+    border-radius: 3px 3px 0 0;
+}
+
+.pw-section-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    margin-bottom: var(--space-32);
+}
+
+.pw-section-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.pw-icon-purple {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(6, 182, 212, 0.15));
+    border: 1px solid rgba(139, 92, 246, 0.25);
+    color: var(--purple-light);
+}
+
+.pw-icon-gold {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(245, 158, 11, 0.15));
+    border: 1px solid rgba(251, 191, 36, 0.25);
+    color: #fbbf24;
+}
+
+.pw-section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+}
+
+.pw-section-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.pw-field-group {
+    margin-bottom: var(--space-20);
+}
+
+.pw-field-label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-8);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.pw-field-wrapper {
+    position: relative;
+}
+
+.pw-field-input {
+    width: 100%;
+    padding: 14px 48px 14px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: all var(--transition-base);
+    outline: none;
+}
+
+.pw-field-input:focus {
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15), inset 0 0 20px rgba(139, 92, 246, 0.05);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.pw-field-input::placeholder {
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.pw-eye-toggle {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    transition: color var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+}
+
+.pw-eye-toggle:hover {
+    color: var(--purple-light);
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.pw-field-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--glass-border), transparent);
+    margin: var(--space-24) 0;
+}
+
+.pw-field-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: var(--space-6);
+}
+
+.pw-strength-meter {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    margin-top: var(--space-8);
+}
+
+.pw-strength-segment {
+    flex: 1;
+    height: 4px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    transition: all var(--transition-base);
+}
+
+.pw-strength-segment.weak { background: #ef4444; }
+.pw-strength-segment.fair { background: #f59e0b; }
+.pw-strength-segment.good { background: #22c55e; }
+.pw-strength-segment.strong { background: #10b981; }
+
+.pw-strength-text {
+    font-size: 0.72rem;
+    font-weight: 600;
+    min-width: 48px;
+    text-align: right;
+    color: var(--text-muted);
+    transition: color var(--transition-fast);
+}
+
+.pw-strength-text.weak { color: #ef4444; }
+.pw-strength-text.fair { color: #f59e0b; }
+.pw-strength-text.good { color: #22c55e; }
+.pw-strength-text.strong { color: #10b981; }
+
+.pw-actions {
+    margin-top: var(--space-32);
+}
+
+.pw-submit-btn {
+    width: 100%;
+}
+
+.pw-flash-container {
+    margin-bottom: var(--space-24);
+}
+
+.pw-flash {
+    padding: var(--space-12) var(--space-16);
+    border-radius: var(--radius-md);
+    font-size: 0.88rem;
+    font-weight: 500;
+    margin-bottom: var(--space-8);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    animation: pw-flash-in 0.3s ease;
+}
+
+.pw-flash-error {
+    background: rgba(239, 68, 68, 0.12);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.pw-flash-success {
+    background: rgba(16, 185, 129, 0.12);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+@keyframes pw-flash-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Gold theme overrides for admin password form */
+.admin-profile-grid .pw-section-card::before {
+    background: linear-gradient(90deg, #f59e0b, #fbbf24, #ea580c);
+}
+
+.admin-profile-grid .pw-field-input:focus {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15), inset 0 0 20px rgba(245, 158, 11, 0.05);
+}
+
+.admin-profile-grid .pw-eye-toggle:hover {
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.1);
+}
+
+
 /* Responsive */
 @media (max-width: 1024px) {
     .stats-grid {
@@ -1379,6 +1669,10 @@
     }
     
     .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-profile-grid {
         grid-template-columns: 1fr;
     }
     

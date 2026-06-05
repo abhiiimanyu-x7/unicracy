@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify
-from services.user_service import create_user, authenticate_user, get_user_by_email, get_user_by_roll_no, get_db
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, jsonify, current_app
+from services.user_service import create_user, authenticate_user, get_user_by_email, get_user_by_roll_no, get_db, get_user_by_email_and_role
 from services.email_service import generate_otp, send_otp_email
 from config import Config
 from datetime import datetime
@@ -144,6 +144,64 @@ def admin_login():
             return render_template('auth/admin_login.html', form_data=request.form)
     
     return render_template('auth/admin_login.html')
+
+
+# ── Google OAuth Routes ──
+
+@auth_bp.route('/auth/google/login')
+def google_login():
+    """Redirect to Google for OAuth login (students only)."""
+    oauth = current_app.oauth
+    redirect_uri = Config.GOOGLE_REDIRECT_URI
+    return oauth.google.authorize_redirect(
+        redirect_uri,
+        hd='kmclu.ac.in',  # Restrict to kmclu.ac.in Google Workspace
+    )
+
+
+@auth_bp.route('/auth/google/callback')
+def google_callback():
+    """Handle Google OAuth callback."""
+    oauth = current_app.oauth
+
+    try:
+        token = oauth.google.authorize_access_token()
+    except Exception:
+        flash('Google authentication failed. Please try again.', 'error')
+        return redirect(url_for('auth.student_login'))
+
+    user_info = token.get('userinfo')
+    if not user_info:
+        flash('Could not retrieve your Google account information.', 'error')
+        return redirect(url_for('auth.student_login'))
+
+    email = user_info.get('email', '').strip().lower()
+    name = user_info.get('name', '')
+
+    # Enforce @kmclu.ac.in domain
+    if not email.endswith('@kmclu.ac.in'):
+        flash('Only @kmclu.ac.in Google accounts are accepted.', 'error')
+        return redirect(url_for('auth.student_login'))
+
+    # Look up existing student user
+    user = get_user_by_email_and_role(email, 'student')
+
+    if not user:
+        flash('No account found for this email. Please register first.', 'error')
+        return redirect(url_for('auth.student_signup'))
+
+    # Log the student in
+    session['user_id'] = str(user['_id'])
+    session['user_name'] = user['name']
+    session['user_role'] = 'student'
+    session['user_department'] = user.get('department', '')
+    session['user_year'] = user.get('year', '')
+    session['user_email'] = user['email']
+    session['user_roll_no'] = user.get('roll_no', '')
+    session.permanent = True
+
+    flash(f'Welcome back, {user["name"]}!', 'success')
+    return redirect(url_for('student.dashboard'))
 
 
 @auth_bp.route('/logout')

@@ -20,6 +20,11 @@ class Config:
     # OTP config
     OTP_EXPIRY_SECONDS = int(os.getenv('OTP_EXPIRY_SECONDS', 300))
     
+    # Google OAuth config
+    GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
+    GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET', '')
+    GOOGLE_REDIRECT_URI = os.getenv('GOOGLE_REDIRECT_URI', 'http://localhost:5000/auth/google/callback')
+    
     # Session config
     SESSION_TYPE = 'filesystem'
     PERMANENT_SESSION_LIFETIME = 3600  # 1 hour

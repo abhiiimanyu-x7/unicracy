@@ -3,12 +3,16 @@ import click
 from flask import Flask, render_template, session
 from pymongo import MongoClient
 from werkzeug.security import generate_password_hash
+from authlib.integrations.flask_client import OAuth
 from config import Config
 from datetime import datetime
 
 
 # ── MongoDB Client (module-level for service imports) ──
 db = None
+
+# ── OAuth Client (module-level for route imports) ──
+oauth = OAuth()
 
 
 def create_app():
@@ -25,6 +29,20 @@ def create_app():
     
     # Store db on app for access in routes
     app.db = db
+    
+    # ── OAuth Setup ──
+    oauth.init_app(app)
+    oauth.register(
+        name='google',
+        client_id=app.config.get('GOOGLE_CLIENT_ID'),
+        client_secret=app.config.get('GOOGLE_CLIENT_SECRET'),
+        server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+        client_kwargs={
+            'scope': 'openid email profile',
+        },
+    )
+    # Store oauth on app for access in routes
+    app.oauth = oauth
     
     # ── Ensure indexes (tolerant of existing indexes) ──
     try:
@@ -69,6 +87,7 @@ def create_app():
             'departments': Config.DEPARTMENTS,
             'years': Config.YEARS,
             'current_year': datetime.now().year,
+            'google_login_enabled': bool(Config.GOOGLE_CLIENT_ID),
         }
     
     # ── Error Handlers ──
