@@ -46,7 +46,10 @@ def authenticate_user(email, password, role='student'):
 def get_user_by_id(user_id):
     """Fetch a user by their ObjectId."""
     db = get_db()
-    return db.users.find_one({'_id': ObjectId(user_id)})
+    try:
+        return db.users.find_one({'_id': ObjectId(user_id)})
+    except Exception:
+        return None
 
 
 def get_user_by_email(email):

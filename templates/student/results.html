@@ -95,9 +95,9 @@
             <div class="result-rank {% if loop.index == 1 %}rank-1{% endif %}">
                 {% if loop.index == 1 %}👑{% else %}#{{ loop.index }}{% endif %}
             </div>
-            <div class="avatar">{{ result.candidate.name[0] | upper }}</div>
+            <div class="avatar">{{ (result.candidate.name or 'C')[0] | upper }}</div>
             <div class="result-info">
-                <div class="result-candidate-name">{{ result.candidate.name }}</div>
+                <div class="result-candidate-name">{{ result.candidate.name or 'Unnamed Candidate' }}</div>
                 <div class="result-candidate-meta">{{ result.candidate.department }} · {{ result.candidate.year }}</div>
                 <div class="result-bar-row">
                     <div class="progress-bar-container flex-1">

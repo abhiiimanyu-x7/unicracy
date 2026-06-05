@@ -38,7 +38,10 @@ def get_all_elections():
 def get_election_by_id(election_id):
     """Get a single election by its ObjectId."""
     db = get_db()
-    return db.elections.find_one({'_id': ObjectId(election_id)})
+    try:
+        return db.elections.find_one({'_id': ObjectId(election_id)})
+    except Exception:
+        return None
 
 
 def get_elections_by_status(status):
@@ -95,7 +98,10 @@ def add_candidate(election_id, data):
 def delete_candidate(candidate_id):
     """Delete a candidate by ID."""
     db = get_db()
-    db.candidates.delete_one({'_id': ObjectId(candidate_id)})
+    try:
+        db.candidates.delete_one({'_id': ObjectId(candidate_id)})
+    except Exception:
+        pass
 
 
 def get_election_stats():

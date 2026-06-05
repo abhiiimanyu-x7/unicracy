@@ -79,9 +79,9 @@
             {% for candidate in candidates %}
             <div class="candidate-card glass-card" id="candidate-{{ candidate._id }}">
                 <div class="candidate-avatar">
-                    {{ candidate.name[0] | upper }}
+                    {{ (candidate.name or 'C')[0] | upper }}
                 </div>
-                <h3 class="candidate-name">{{ candidate.name }}</h3>
+                <h3 class="candidate-name">{{ candidate.name or 'Unnamed Candidate' }}</h3>
                 <div class="candidate-meta">
                     <span class="badge badge-department" style="font-size: 0.7rem;">{{ candidate.department }}</span>
                     <span class="badge badge-year" style="font-size: 0.7rem;">{{ candidate.year }}</span>

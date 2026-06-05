@@ -17,6 +17,8 @@ class Config:
     EMAIL_PASS = os.getenv("EMAIL_PASS")
     EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "true").lower() == "true"
     ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
+    MOCK_EMAIL = os.getenv("MOCK_EMAIL", "false").lower() == "true"
+    BYPASS_OTP = os.getenv("BYPASS_OTP", "true").lower() == "true"
     
     # OTP config
     OTP_EXPIRY_SECONDS = int(os.getenv('OTP_EXPIRY_SECONDS', 300))

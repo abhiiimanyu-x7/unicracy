@@ -73,8 +73,8 @@
         <div class="candidates-list">
             {% for candidate in candidates %}
             <div class="candidate-manage-card glass-card">
-                <div class="candidate-avatar">{{ candidate.name[0] | upper }}</div>
-                <h4>{{ candidate.name }}</h4>
+                <div class="candidate-avatar">{{ (candidate.name or 'C')[0] | upper }}</div>
+                <h4>{{ candidate.name or 'Unnamed Candidate' }}</h4>
                 <p>{{ candidate.department }} · {{ candidate.year }}</p>
                 {% if candidate.symbol %}
                 <p style="font-size: 1.5rem; margin: var(--space-4) 0;">{{ candidate.symbol }}</p>
