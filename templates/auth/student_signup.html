@@ -271,28 +271,48 @@
                     </div>
 
                     <div class="form-group">
-                        <div style="display: flex; gap: 10px;">
-                            <div style="flex: 1; position: relative;">
+                        <div style="display: flex; gap: 10px; align-items: stretch;">
+                            <div class="email-input-wrapper">
                                 <input type="email" name="email" id="email" class="form-input" placeholder=" "
                                     value="{{ form_data.email if form_data else '' }}" pattern=".*@kmclu\.ac\.in$"
                                     title="Must be a valid @kmclu.ac.in email" required>
                                 <label for="email" class="form-label">Email (@kmclu.ac.in)</label>
+                                <span class="email-lock-icon hidden" id="email-lock-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                    </svg>
+                                </span>
                             </div>
                             {% if not bypass_otp %}
                             <button type="button" id="send-otp-btn" class="btn btn-secondary"
-                                style="white-space: nowrap; padding: 0 1rem; border-radius: var(--radius-md);">
+                                style="white-space: nowrap; padding: 0 1.25rem; border-radius: var(--radius-md); font-weight: 600;">
                                 Send OTP
                             </button>
                             {% endif %}
                         </div>
                         <div id="otp-message" style="font-size: 0.85rem; margin-top: 5px; display: none;"></div>
+                        <div id="email-verified-badge" class="email-verified-success" style="display: none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            <span>Email Verified Successfully!</span>
+                            <span class="change-email-link" id="change-email-btn">Change Email</span>
+                        </div>
                     </div>
 
                     {% if not bypass_otp %}
                     <div class="form-group" id="otp-group" style="display: none;">
-                        <input type="text" name="otp" id="otp" class="form-input" placeholder=" " required maxlength="6"
-                            pattern="\d{6}">
-                        <label for="otp" class="form-label">Enter 6-digit OTP</label>
+                        <label class="form-select-label" style="position: static; font-size: 0.75rem; display: block; margin-bottom: 6px;">Enter 6-digit OTP</label>
+                        <div class="otp-digit-container">
+                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="0" required inputmode="numeric">
+                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="1" required inputmode="numeric">
+                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="2" required inputmode="numeric">
+                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="3" required inputmode="numeric">
+                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="4" required inputmode="numeric">
+                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="5" required inputmode="numeric">
+                        </div>
+                        <input type="hidden" name="otp" id="otp">
                     </div>
                     {% endif %}
 
@@ -358,13 +378,192 @@
         }
     });
 
-    // OTP Logic
+    // OTP Logic variables
     const sendOtpBtn = document.getElementById('send-otp-btn');
     const otpGroup = document.getElementById('otp-group');
-    const otpInput = document.getElementById('otp');
     const otpMessage = document.getElementById('otp-message');
-    let otpSent = false;
+    const otpHiddenInput = document.getElementById('otp');
+    const otpDigitInputs = document.querySelectorAll('.otp-digit-input');
+    const emailLockIcon = document.getElementById('email-lock-icon');
+    const emailVerifiedBadge = document.getElementById('email-verified-badge');
+    const changeEmailBtn = document.getElementById('change-email-btn');
 
+    let otpSent = false;
+    let otpVerified = false;
+    let countdownTimer = null;
+
+    // Shift focus automatically for split digit inputs
+    otpDigitInputs.forEach((input, index) => {
+        // Enforce numeric characters and jump forward
+        input.addEventListener('input', (e) => {
+            const value = e.target.value;
+            // Clean value: take only the last digit if multiple characters typed somehow
+            e.target.value = value.replace(/\D/g, '').substring(0, 1);
+            
+            if (e.target.value) {
+                // Focus on next input if it exists
+                if (index < otpDigitInputs.length - 1) {
+                    otpDigitInputs[index + 1].focus();
+                } else {
+                    // Reached the end, check if all inputs have digits
+                    checkAndVerifyOtp();
+                }
+            }
+        });
+
+        // Keydown behavior: jump backward on Backspace
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace') {
+                if (!input.value && index > 0) {
+                    otpDigitInputs[index - 1].value = '';
+                    otpDigitInputs[index - 1].focus();
+                } else {
+                    input.value = '';
+                }
+                e.preventDefault();
+            }
+        });
+
+        // Clear invalid validation class on focus
+        input.addEventListener('focus', () => {
+            input.classList.remove('invalid');
+        });
+    });
+
+    // Support paste events across digit inputs
+    if (otpDigitInputs.length > 0) {
+        otpDigitInputs[0].parentNode.addEventListener('paste', (e) => {
+            e.preventDefault();
+            const pasteData = (e.clipboardData || window.clipboardData).getData('text').trim();
+            if (/^\d{6}$/.test(pasteData)) {
+                otpDigitInputs.forEach((input, idx) => {
+                    input.value = pasteData[idx];
+                });
+                checkAndVerifyOtp();
+            }
+        });
+    }
+
+    // Function to check if all inputs are populated and verify
+    function checkAndVerifyOtp() {
+        const otpVal = Array.from(otpDigitInputs).map(input => input.value).join('');
+        if (otpVal.length === 6) {
+            verifyOtpCode(otpVal);
+        }
+    }
+
+    // Call verify endpoint
+    async function verifyOtpCode(otpVal) {
+        // Disable digit inputs
+        otpDigitInputs.forEach(input => input.disabled = true);
+        
+        // Show status
+        otpMessage.style.display = 'block';
+        otpMessage.style.color = 'var(--text-muted)';
+        otpMessage.innerHTML = 'Verifying OTP code <div class="verify-spinner"></div>';
+
+        try {
+            const response = await fetch("{{ url_for('auth.verify_otp') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email.value.trim(),
+                    otp: otpVal
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                // Success: lock everything
+                otpVerified = true;
+                otpHiddenInput.value = otpVal;
+                
+                otpMessage.style.display = 'none';
+                emailVerifiedBadge.style.display = 'flex';
+                emailLockIcon.classList.remove('hidden');
+                
+                email.disabled = true;
+                if (sendOtpBtn) {
+                    sendOtpBtn.style.display = 'none';
+                }
+                
+                otpDigitInputs.forEach(input => {
+                    input.classList.add('valid');
+                    input.classList.remove('invalid');
+                    input.disabled = true;
+                });
+            } else {
+                // Failure: unlock, highlight red and shake
+                otpMessage.style.display = 'block';
+                otpMessage.style.color = 'var(--error-color)';
+                otpMessage.textContent = data.message || 'Invalid or expired OTP. Please try again.';
+                
+                otpDigitInputs.forEach(input => {
+                    input.disabled = false;
+                    input.classList.add('invalid');
+                });
+                
+                // Clear validation errors after shake finishes
+                setTimeout(() => {
+                    otpDigitInputs.forEach(input => input.classList.remove('invalid'));
+                    otpDigitInputs.forEach(input => input.value = '');
+                    otpDigitInputs[0].focus();
+                }, 1000);
+            }
+        } catch (error) {
+            console.error('Error during OTP verification:', error);
+            otpMessage.style.display = 'block';
+            otpMessage.style.color = 'var(--error-color)';
+            otpMessage.textContent = 'An error occurred during verification. Please try again.';
+            otpDigitInputs.forEach(input => input.disabled = false);
+        }
+    }
+
+    // Reset email validation and input locking
+    if (changeEmailBtn) {
+        changeEmailBtn.addEventListener('click', () => {
+            otpVerified = false;
+            otpSent = false;
+            otpHiddenInput.value = '';
+            
+            // Clear inputs
+            email.value = '';
+            email.disabled = false;
+            email.classList.remove('valid', 'invalid');
+            
+            if (sendOtpBtn) {
+                sendOtpBtn.style.display = 'inline-flex';
+                sendOtpBtn.disabled = false;
+                sendOtpBtn.textContent = 'Send OTP';
+            }
+            
+            // Hide badge and lock icon
+            emailVerifiedBadge.style.display = 'none';
+            emailLockIcon.classList.add('hidden');
+            
+            // Hide and clear OTP inputs
+            otpGroup.style.display = 'none';
+            otpDigitInputs.forEach(input => {
+                input.value = '';
+                input.disabled = false;
+                input.classList.remove('valid', 'invalid');
+            });
+            
+            otpMessage.style.display = 'none';
+            
+            // Clear any active timers
+            if (countdownTimer) {
+                clearInterval(countdownTimer);
+            }
+            
+            email.focus();
+        });
+    }
+
+    // OTP Sending Logic
     if (sendOtpBtn) {
         sendOtpBtn.addEventListener('click', async function () {
             const emailVal = email.value.trim();
@@ -380,6 +579,7 @@
             sendOtpBtn.disabled = true;
             sendOtpBtn.textContent = 'Sending...';
             otpMessage.style.display = 'none';
+            email.disabled = true; // Temporary disable during sending
 
             try {
                 const response = await fetch("{{ url_for('auth.send_otp') }}", {
@@ -397,23 +597,35 @@
                     otpMessage.style.color = 'var(--success-color)';
                     otpMessage.textContent = 'OTP sent successfully! Please check your inbox.';
                     otpGroup.style.display = 'block';
-                    otpInput.required = true;
                     otpSent = true;
+                    
+                    // Clear inputs and focus on first
+                    otpDigitInputs.forEach(input => {
+                        input.value = '';
+                        input.disabled = false;
+                        input.classList.remove('valid', 'invalid');
+                    });
+                    setTimeout(() => otpDigitInputs[0].focus(), 100);
 
                     // Change button to resend with cooldown
                     let timeLeft = 60;
-                    const timer = setInterval(() => {
+                    if (countdownTimer) {
+                        clearInterval(countdownTimer);
+                    }
+                    countdownTimer = setInterval(() => {
                         timeLeft--;
                         sendOtpBtn.textContent = `Resend in ${timeLeft}s`;
                         if (timeLeft <= 0) {
-                            clearInterval(timer);
+                            clearInterval(countdownTimer);
                             sendOtpBtn.disabled = false;
                             sendOtpBtn.textContent = 'Resend OTP';
+                            email.disabled = false; // Re-enable email edit if they need
                         }
                     }, 1000);
                 } else {
                     sendOtpBtn.disabled = false;
                     sendOtpBtn.textContent = 'Send OTP';
+                    email.disabled = false;
                     otpMessage.style.color = 'var(--error-color)';
                     otpMessage.textContent = data.message || 'Failed to send OTP.';
                 }
@@ -421,6 +633,7 @@
                 console.error('Error:', error);
                 sendOtpBtn.disabled = false;
                 sendOtpBtn.textContent = 'Send OTP';
+                email.disabled = false;
                 otpMessage.style.display = 'block';
                 otpMessage.style.color = 'var(--error-color)';
                 otpMessage.textContent = 'An error occurred. Please try again later.';
@@ -428,22 +641,30 @@
         });
     }
 
-    // Submit loading
+    // Submit loading & frontend validation
     signupForm.addEventListener('submit', function (e) {
         if (password.value !== confirm.value) {
             e.preventDefault();
             confirm.classList.add('invalid');
             return;
         }
+        
         if (!bypassOtp) {
-            if (!otpSent || !otpInput.value) {
+            if (!otpVerified) {
                 e.preventDefault();
                 otpMessage.style.display = 'block';
                 otpMessage.style.color = 'var(--error-color)';
                 otpMessage.textContent = 'Please request and verify the OTP first.';
+                
+                // Scroll to OTP section
+                otpGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
         }
+        
+        // Re-enable email input so it is submitted with the form
+        email.disabled = false;
+        
         const btn = document.getElementById('submit-btn');
         const spinner = document.getElementById('submit-spinner');
         btn.classList.add('btn-loading');

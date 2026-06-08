@@ -34,6 +34,24 @@ def send_otp():
         return jsonify({'success': False, 'message': 'Failed to send OTP. Please try again.'}), 500
 
 
+@auth_bp.route('/student/verify-otp', methods=['POST'])
+def verify_otp():
+    """Verify OTP for registration."""
+    data = request.get_json()
+    email = data.get('email', '').strip().lower()
+    otp_input = data.get('otp', '').strip()
+    
+    if not email or not otp_input:
+        return jsonify({'success': False, 'message': 'Email and OTP are required.'}), 400
+        
+    db = get_db()
+    otp_record = db.otps.find_one({'email': email})
+    if not otp_record or otp_record.get('otp') != otp_input:
+        return jsonify({'success': False, 'message': 'Invalid or expired OTP.'}), 400
+        
+    return jsonify({'success': True, 'message': 'OTP verified successfully!'})
+
+
 @auth_bp.route('/student/signup', methods=['GET', 'POST'])
 def student_signup():
     """Student registration page."""

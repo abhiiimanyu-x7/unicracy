@@ -11,6 +11,12 @@ def generate_otp(length=6):
 
 def send_otp_email(to_email, otp):
     """Send an OTP email to the given address."""
+    if Config.MOCK_EMAIL:
+        print("\n" + "="*50)
+        print(f" MOCK EMAIL: Sent OTP [{otp}] to {to_email} ")
+        print("="*50 + "\n")
+        return True
+        
     if not Config.EMAIL_USER or not Config.EMAIL_PASS:
         print("Warning: Email credentials not configured. OTP not sent.")
         return False
