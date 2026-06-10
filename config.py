@@ -11,8 +11,9 @@ class Config:
     DEBUG = os.getenv('FLASK_DEBUG', '0') == '1'
     
     # Email config
-    RESEND_API_KEY = os.getenv("RESEND_API_KEY")
-    RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "onboarding@resend.dev")
+    BREVO_API_KEY = os.getenv("BREVO_API_KEY")
+    BREVO_FROM_EMAIL = os.getenv("BREVO_FROM_EMAIL", "noreply@unicracy.com")
+    BREVO_FROM_NAME = os.getenv("BREVO_FROM_NAME", "UNICRACY Team")
     ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
     MOCK_EMAIL = os.getenv("MOCK_EMAIL", "false").lower() == "true"
     BYPASS_OTP = os.getenv("BYPASS_OTP", "false").lower() == "true"
@@ -31,14 +32,27 @@ class Config:
     
     # App constants
     DEPARTMENTS = [
-        'Computer Science',
-        'Electronics & Communication',
-        'Electrical & Electronics',
-        'Mechanical Engineering',
-        'Civil Engineering',
-        'Information Technology',
-        'Chemical Engineering',
-        'Biotechnology',
+        'B.E. / B.Tech',
+        'B.Sc.',
+        'B.A.',
+        'BCA',
+        'MBA / PGDM',
+        'B.Ed',
+        'LL.M.',
+        'B.A. LL.B.',
+        'B.Pharma',
+        'BBA',
+        'UG Diploma',
+        'M.A.',
+        'B.Com',
+        'LL.B.',
+        'MCA',
+        'PG Diploma',
+        'Certificate',
+        'M.E. / M.Tech',
+        'M.Com',
+        'B.Lib.I.Sc.',
+        'Others',
     ]
     
     YEARS = ['1st Year', '2nd Year', '3rd Year', '4th Year']

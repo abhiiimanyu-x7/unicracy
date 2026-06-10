@@ -15,8 +15,8 @@ def send_otp_email(to_email, otp):
         print("="*50 + "\n")
         return True
         
-    if not Config.RESEND_API_KEY:
-        print("Warning: RESEND_API_KEY not configured. OTP not sent.")
+    if not Config.BREVO_API_KEY:
+        print("Warning: BREVO_API_KEY not configured. OTP not sent.")
         return False
         
     subject = "Your UNICRACY Registration OTP"
@@ -40,29 +40,37 @@ def send_otp_email(to_email, otp):
     """
 
     headers = {
-        "Authorization": f"Bearer {Config.RESEND_API_KEY}",
-        "Content-Type": "application/json"
+        "api-key": Config.BREVO_API_KEY,
+        "content-type": "application/json",
+        "accept": "application/json"
     }
 
     payload = {
-        "from": Config.RESEND_FROM_EMAIL,
-        "to": to_email,
+        "sender": {
+            "name": Config.BREVO_FROM_NAME,
+            "email": Config.BREVO_FROM_EMAIL
+        },
+        "to": [
+            {
+                "email": to_email
+            }
+        ],
         "subject": subject,
-        "html": body
+        "htmlContent": body
     }
 
     try:
         response = requests.post(
-            "https://api.resend.com/emails",
+            "https://api.brevo.com/v3/smtp/email",
             json=payload,
             headers=headers,
             timeout=10
         )
-        if response.status_code in [200, 201]:
+        if response.status_code in [200, 201, 202]:
             return True
         else:
-            print(f"Resend API error (status {response.status_code}): {response.text}")
+            print(f"Brevo API error (status {response.status_code}): {response.text}")
             return False
     except Exception as e:
-        print(f"Error sending email via Resend API: {e}")
+        print(f"Error sending email via Brevo API: {e}")
         return False
