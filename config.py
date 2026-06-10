@@ -11,11 +11,8 @@ class Config:
     DEBUG = os.getenv('FLASK_DEBUG', '0') == '1'
     
     # Email config
-    EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
-    EMAIL_PORT = int(os.getenv("EMAIL_PORT", 465))
-    EMAIL_USER = os.getenv("EMAIL_USER")
-    EMAIL_PASS = os.getenv("EMAIL_PASS")
-    EMAIL_USE_SSL = os.getenv("EMAIL_USE_SSL", "true").lower() == "true"
+    RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+    RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "onboarding@resend.dev")
     ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
     MOCK_EMAIL = os.getenv("MOCK_EMAIL", "false").lower() == "true"
     BYPASS_OTP = os.getenv("BYPASS_OTP", "true").lower() == "true"

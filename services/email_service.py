@@ -1,8 +1,6 @@
-import smtplib
 import random
 import string
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import requests
 from config import Config
 
 def generate_otp(length=6):
@@ -17,8 +15,8 @@ def send_otp_email(to_email, otp):
         print("="*50 + "\n")
         return True
         
-    if not Config.EMAIL_USER or not Config.EMAIL_PASS:
-        print("Warning: Email credentials not configured. OTP not sent.")
+    if not Config.RESEND_API_KEY:
+        print("Warning: RESEND_API_KEY not configured. OTP not sent.")
         return False
         
     subject = "Your UNICRACY Registration OTP"
@@ -41,28 +39,30 @@ def send_otp_email(to_email, otp):
     </html>
     """
 
-    msg = MIMEMultipart()
-    msg['From'] = Config.EMAIL_USER
-    msg['To'] = to_email
-    msg['Subject'] = subject
-    msg.attach(MIMEText(body, 'html'))
+    headers = {
+        "Authorization": f"Bearer {Config.RESEND_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "from": Config.RESEND_FROM_EMAIL,
+        "to": to_email,
+        "subject": subject,
+        "html": body
+    }
 
     try:
-        if Config.EMAIL_USE_SSL:
-            server = smtplib.SMTP_SSL(
-                Config.EMAIL_HOST,
-                int(Config.EMAIL_PORT),
-                timeout=10
-            )
+        response = requests.post(
+            "https://api.resend.com/emails",
+            json=payload,
+            headers=headers,
+            timeout=10
+        )
+        if response.status_code in [200, 201]:
+            return True
         else:
-            server = smtplib.SMTP(Config.EMAIL_HOST, Config.EMAIL_PORT)
-            server.starttls()
-            
-        server.login(Config.EMAIL_USER, Config.EMAIL_PASS)
-        server.send_message(msg)
-        
-        server.quit()
-        return True
+            print(f"Resend API error (status {response.status_code}): {response.text}")
+            return False
     except Exception as e:
-        print(f"Error sending email: {e}")
+        print(f"Error sending email via Resend API: {e}")
         return False

@@ -19,11 +19,7 @@ services:
         placeholder: "Optional: https://your-app.onrender.com/auth/google/callback"
       - key: BYPASS_OTP
         value: "true"
-      - key: EMAIL_HOST
-        placeholder: "Optional: SMTP host e.g. smtp.gmail.com"
-      - key: EMAIL_PORT
-        placeholder: "Optional: SMTP port e.g. 465"
-      - key: EMAIL_USER
-        placeholder: "Optional: SMTP email address"
-      - key: EMAIL_PASS
-        placeholder: "Optional: SMTP password or app password"
+      - key: RESEND_API_KEY
+        placeholder: "Your Resend API Key"
+      - key: RESEND_FROM_EMAIL
+        value: "onboarding@resend.dev"
