@@ -8,7 +8,10 @@ from services.election_service import (
 from services.vote_service import (
     get_results, get_voter_count, get_participation_rate, get_recent_votes
 )
-from services.user_service import get_total_students, change_admin_password, get_user_by_id
+from services.user_service import (
+    get_total_students, change_admin_password, get_user_by_id,
+    create_admin_user, get_all_admins, get_user_by_email
+)
 from config import Config
 
 admin_bp = Blueprint('admin', __name__)
@@ -248,3 +251,36 @@ def profile():
 def change_password():
     """Redirect to profile page (password change is now part of profile)."""
     return redirect(url_for('admin.profile'))
+
+
+@admin_bp.route('/admin/manage-admins', methods=['GET', 'POST'])
+@admin_required
+def manage_admins():
+    """Manage admin users (create and list teacher/admin users)."""
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        email = request.form.get('email', '').strip().lower()
+        password = request.form.get('password', '')
+        confirm_password = request.form.get('confirm_password', '')
+        is_teacher = request.form.get('is_teacher') == 'on' or request.form.get('is_teacher') == 'true'
+        
+        if not all([name, email, password, confirm_password]):
+            flash('All fields are required.', 'error')
+        elif password != confirm_password:
+            flash('Passwords do not match.', 'error')
+        elif len(password) < 6:
+            flash('Password must be at least 6 characters.', 'error')
+        elif get_user_by_email(email):
+            flash('An account with this email already exists.', 'error')
+        else:
+            create_admin_user({
+                'name': name,
+                'email': email,
+                'password': password,
+                'is_teacher': is_teacher
+            })
+            flash('New admin user created successfully!', 'success')
+            return redirect(url_for('admin.manage_admins'))
+            
+    admins = get_all_admins()
+    return render_template('admin/manage_admins.html', admins=admins)

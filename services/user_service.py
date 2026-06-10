@@ -143,3 +143,27 @@ def change_student_password(user_id, current_password, new_password):
     )
 
     return {'success': True, 'message': 'Password changed successfully!'}
+
+
+def create_admin_user(data):
+    """Create a new admin user (e.g. teacher)."""
+    db = get_db()
+    
+    admin = {
+        'name': data['name'].strip(),
+        'email': data['email'].strip().lower(),
+        'password_hash': generate_password_hash(data['password']),
+        'role': 'admin',
+        'is_teacher': data.get('is_teacher', False),
+        'created_at': datetime.utcnow(),
+    }
+    
+    result = db.users.insert_one(admin)
+    admin['_id'] = result.inserted_id
+    return admin
+
+
+def get_all_admins():
+    """Get all users with the admin role."""
+    db = get_db()
+    return list(db.users.find({'role': 'admin'}))

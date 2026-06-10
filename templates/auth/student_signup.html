@@ -24,130 +24,62 @@
             <div class="auth-particle"></div>
             <div class="auth-particle"></div>
             <div class="auth-particle"></div>
-        </div>
-        <div class="auth-brand-content">
-            <!-- Inline SVG Illustration: Community / People -->
+        </div>        <div class="auth-brand-content">
+            <!-- Goofy Student Rep Megaphone Logo -->
             <div class="auth-illustration">
                 <div class="auth-illustration-glow"></div>
                 <svg viewBox="0 0 260 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Central person -->
-                    <circle cx="130" cy="65" r="18" fill="url(#personGrad1)" stroke="rgba(139,92,246,0.4)"
-                        stroke-width="1.5">
-                        <animate attributeName="r" values="18;19;18" dur="3s" repeatCount="indefinite" />
-                    </circle>
-                    <path d="M100 130 Q100 105 130 100 Q160 105 160 130" fill="url(#bodyGrad1)"
-                        stroke="rgba(139,92,246,0.3)" stroke-width="1" />
-                    <!-- Left person -->
-                    <circle cx="60" cy="85" r="14" fill="url(#personGrad2)" stroke="rgba(6,182,212,0.3)"
-                        stroke-width="1" opacity="0.8" />
-                    <path d="M38 128 Q38 108 60 104 Q82 108 82 128" fill="url(#bodyGrad2)" stroke="rgba(6,182,212,0.2)"
-                        stroke-width="1" opacity="0.7" />
-                    <!-- Right person -->
-                    <circle cx="200" cy="85" r="14" fill="url(#personGrad3)" stroke="rgba(236,72,153,0.3)"
-                        stroke-width="1" opacity="0.8" />
-                    <path d="M178 128 Q178 108 200 104 Q222 108 222 128" fill="url(#bodyGrad3)"
-                        stroke="rgba(236,72,153,0.2)" stroke-width="1" opacity="0.7" />
-                    <!-- Connection lines -->
-                    <line x1="80" y1="90" x2="110" y2="75" stroke="url(#lineGrad1)" stroke-width="1.5"
-                        stroke-dasharray="4,4" opacity="0.5">
-                        <animate attributeName="stroke-dashoffset" from="0" to="-8" dur="1.5s"
-                            repeatCount="indefinite" />
-                    </line>
-                    <line x1="150" y1="75" x2="185" y2="90" stroke="url(#lineGrad2)" stroke-width="1.5"
-                        stroke-dasharray="4,4" opacity="0.5">
-                        <animate attributeName="stroke-dashoffset" from="0" to="-8" dur="1.5s"
-                            repeatCount="indefinite" />
-                    </line>
-                    <!-- Voting card floating -->
-                    <g>
-                        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-6; 0,0" dur="4s"
-                            repeatCount="indefinite" />
-                        <rect x="110" y="140" width="40" height="30" rx="5" fill="rgba(255,255,255,0.08)"
-                            stroke="rgba(139,92,246,0.3)" stroke-width="1" />
-                        <polyline points="118,155 122,159 132,149" stroke="#22d3ee" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                    <!-- Giant cartoon glasses with goofy eyes -->
+                    <rect x="55" y="70" width="60" height="45" rx="10" stroke="#fbbf24" stroke-width="4" fill="rgba(255,255,255,0.1)"/>
+                    <circle cx="85" cy="92" r="8" fill="#1e293b"/>
+                    <circle cx="81" cy="88" r="3" fill="#ffffff"/>
+                    <rect x="145" y="70" width="60" height="45" rx="10" stroke="#fbbf24" stroke-width="4" fill="rgba(255,255,255,0.1)"/>
+                    <circle cx="175" cy="92" r="8" fill="#1e293b"/>
+                    <circle cx="171" cy="88" r="3" fill="#ffffff"/>
+                    <path d="M115 90 L145 90" stroke="#fbbf24" stroke-width="5" stroke-linecap="round"/>
+                    
+                    <!-- Goofy Megaphone with a tiny gold crown -->
+                    <g transform="translate(100, 100) rotate(-15)">
+                        <!-- Megaphone cone -->
+                        <path d="M10 20 L50 5 L60 45 L10 30 Z" fill="url(#megaGrad)" stroke="#1e293b" stroke-width="2"/>
+                        <!-- Megaphone handle -->
+                        <rect x="12" y="28" width="10" height="22" rx="3" fill="#e2e8f0" stroke="#1e293b" stroke-width="2"/>
+                        <!-- Soundwaves -->
+                        <path d="M68 12 Q75 25 68 38" stroke="#ec4899" stroke-width="3" stroke-linecap="round" fill="none">
+                            <animate attributeName="stroke-dasharray" from="0,20" to="20,0" dur="1.2s" repeatCount="indefinite"/>
+                        </path>
+                        <path d="M75 5 Q85 25 75 45" stroke="#a78bfa" stroke-width="3" stroke-linecap="round" fill="none">
+                            <animate attributeName="stroke-dasharray" from="0,20" to="20,0" dur="1.5s" repeatCount="indefinite"/>
+                        </path>
                     </g>
-                    <!-- Sparkle effects -->
-                    <circle cx="45" cy="50" r="2" fill="#a78bfa" opacity="0.6">
-                        <animate attributeName="opacity" values="0.6;0.1;0.6" dur="2s" repeatCount="indefinite" />
-                    </circle>
-                    <circle cx="215" cy="55" r="2.5" fill="#22d3ee" opacity="0.5">
-                        <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2.5s" repeatCount="indefinite" />
-                    </circle>
-                    <circle cx="130" cy="30" r="2" fill="#ec4899" opacity="0.5">
-                        <animate attributeName="opacity" values="0.5;0.15;0.5" dur="1.8s" repeatCount="indefinite" />
-                    </circle>
-                    <circle cx="30" cy="120" r="1.5" fill="#fbbf24" opacity="0.4">
-                        <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3s" repeatCount="indefinite" />
-                    </circle>
-                    <circle cx="230" cy="140" r="2" fill="#a78bfa" opacity="0.3">
-                        <animate attributeName="opacity" values="0.3;0.1;0.3" dur="2.2s" repeatCount="indefinite" />
-                    </circle>
-                    <!-- Shield -->
-                    <path d="M130 175 L130 188" stroke="rgba(139,92,246,0.3)" stroke-width="1" stroke-linecap="round" />
-                    <circle cx="130" cy="192" r="3" fill="none" stroke="rgba(6,182,212,0.3)" stroke-width="1">
-                        <animate attributeName="r" values="3;6;3" dur="3s" repeatCount="indefinite" />
-                        <animate attributeName="opacity" values="0.5;0;0.5" dur="3s" repeatCount="indefinite" />
-                    </circle>
-                    <!-- Gradients -->
+                    <!-- Tiny Gold Crown floating above -->
+                    <g transform="translate(105, 30)">
+                        <animateTransform attributeName="transform" type="translate" values="105,30; 105,24; 105,30" dur="2.5s" repeatCount="indefinite"/>
+                        <path d="M5 25 L12 10 L20 20 L28 10 L35 25 Z" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+                        <circle cx="12" cy="9" r="2" fill="#ef4444"/>
+                        <circle cx="20" cy="19" r="2" fill="#3b82f6"/>
+                        <circle cx="28" cy="9" r="2" fill="#ef4444"/>
+                    </g>
                     <defs>
-                        <linearGradient id="personGrad1" x1="112" y1="47" x2="148" y2="83">
-                            <stop offset="0%" stop-color="rgba(139,92,246,0.4)" />
-                            <stop offset="100%" stop-color="rgba(6,182,212,0.3)" />
-                        </linearGradient>
-                        <linearGradient id="bodyGrad1" x1="100" y1="100" x2="160" y2="130">
-                            <stop offset="0%" stop-color="rgba(139,92,246,0.25)" />
-                            <stop offset="100%" stop-color="rgba(6,182,212,0.15)" />
-                        </linearGradient>
-                        <linearGradient id="personGrad2" x1="46" y1="71" x2="74" y2="99">
-                            <stop offset="0%" stop-color="rgba(6,182,212,0.35)" />
-                            <stop offset="100%" stop-color="rgba(59,130,246,0.2)" />
-                        </linearGradient>
-                        <linearGradient id="bodyGrad2" x1="38" y1="104" x2="82" y2="128">
-                            <stop offset="0%" stop-color="rgba(6,182,212,0.2)" />
-                            <stop offset="100%" stop-color="rgba(59,130,246,0.1)" />
-                        </linearGradient>
-                        <linearGradient id="personGrad3" x1="186" y1="71" x2="214" y2="99">
-                            <stop offset="0%" stop-color="rgba(236,72,153,0.35)" />
-                            <stop offset="100%" stop-color="rgba(139,92,246,0.2)" />
-                        </linearGradient>
-                        <linearGradient id="bodyGrad3" x1="178" y1="104" x2="222" y2="128">
-                            <stop offset="0%" stop-color="rgba(236,72,153,0.2)" />
-                            <stop offset="100%" stop-color="rgba(139,92,246,0.1)" />
-                        </linearGradient>
-                        <linearGradient id="lineGrad1" x1="80" y1="90" x2="110" y2="75">
-                            <stop offset="0%" stop-color="#22d3ee" />
-                            <stop offset="100%" stop-color="#8b5cf6" />
-                        </linearGradient>
-                        <linearGradient id="lineGrad2" x1="150" y1="75" x2="185" y2="90">
-                            <stop offset="0%" stop-color="#8b5cf6" />
-                            <stop offset="100%" stop-color="#ec4899" />
+                        <linearGradient id="megaGrad" x1="10" y1="5" x2="60" y2="45">
+                            <stop offset="0%" stop-color="#ec4899"/>
+                            <stop offset="100%" stop-color="#a78bfa"/>
                         </linearGradient>
                     </defs>
                 </svg>
             </div>
+            
             <h1 class="auth-brand-logo gradient-text">UNICRACY</h1>
-            <p class="auth-brand-tagline">One University. One Election.</p>
-            <p class="auth-brand-description">
-                Create your account to participate in campus elections.
-                Your voice matters. Register today and vote tomorrow.
+            <p class="auth-brand-tagline" style="color: #be123c; font-size: 1.3rem; transform: rotate(-1deg); font-weight: 800; margin-bottom: 2rem;">🗳️ The Goofy Campus Democracy!</p>
+            <p class="auth-brand-description" style="color: #1e293b; font-weight: 500;">
+                No boring speeches, no paper ballots that get lost in the dean's pocket. Register today using your official campus email and take back control of your student representative future!
             </p>
-            <div class="auth-exclusivity"
-                style="margin-top: 2rem; background: rgba(255,255,255,0.06); padding: 1.5rem; border-radius: 14px; border: 1px solid rgba(139,92,246,0.2);">
-                <h3
-                    style="color: white; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 8px; font-size: 0.95rem;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2"
-                        stroke-linecap="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                    Exclusive Access
-                </h3>
-                <p
-                    style="font-size: 0.88rem; opacity: 0.85; margin: 0; color: var(--text-secondary); line-height: 1.6;">
-                    UNICRACY is strictly for KMCLU students. Registration requires a valid <strong
-                        style="color: #a78bfa;">@kmclu.ac.in</strong> email address, secured by one-time password
-                    verification.
-                </p>
+            
+            <div class="auth-features" style="margin-top: 2rem;">
+                <span class="auth-feature-pill">🍖 Stop Mystery Cafeteria Meat</span>
+                <span class="auth-feature-pill">📡 WiFi Upgrades Now</span>
+                <span class="auth-feature-pill">😴 Ban 9 AM Lectures</span>
+                <span class="auth-feature-pill">🔒 Secure Tap Voting</span>
             </div>
         </div>
     </div>
@@ -221,112 +153,115 @@
                     <div class="auth-form-divider">OR</div>
                     {% endif %}
 
-                    <!-- Step 1: Personal Info -->
-                    <div class="form-step-label">
-                        <span class="form-step-number">1</span>
-                        Personal Information
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" name="name" id="name" class="form-input" placeholder=" "
-                            value="{{ form_data.name if form_data else '' }}" required>
-                        <label for="name" class="form-label">Full Name</label>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <input type="text" name="roll_no" id="roll_no" class="form-input" placeholder=" "
-                                value="{{ form_data.roll_no if form_data else '' }}" required>
-                            <label for="roll_no" class="form-label">Roll Number</label>
+                    <!-- Section 1: Profile -->
+                    <div class="form-section-card">
+                        <!-- Step 1: Personal Info -->
+                        <div class="form-step-label">
+                            <span class="form-step-number">1</span>
+                            🧑‍🎓 Personal Profile
                         </div>
 
                         <div class="form-group">
-                            <label for="year" class="form-select-label">Year</label>
-                            <select name="year" id="year" class="form-select" required>
-                                <option value="" disabled {{ 'selected' if not form_data else '' }}>Select year</option>
-                                {% for y in years %}
-                                <option value="{{ y }}" {{ 'selected' if form_data and form_data.year==y else '' }}>{{ y
-                                    }}</option>
+                            <input type="text" name="name" id="name" class="form-input" placeholder=" "
+                                value="{{ form_data.name if form_data else '' }}" required>
+                            <label for="name" class="form-label">Full Name</label>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" name="roll_no" id="roll_no" class="form-input" placeholder=" "
+                                    value="{{ form_data.roll_no if form_data else '' }}" required>
+                                <label for="roll_no" class="form-label">Roll Number</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="year" class="form-select-label">Year</label>
+                                <select name="year" id="year" class="form-select" required>
+                                    <option value="" disabled {{ 'selected' if not form_data else '' }}>Select year</option>
+                                    {% for y in years %}
+                                    <option value="{{ y }}" {{ 'selected' if form_data and form_data.year==y else '' }}>{{ y }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="department" class="form-select-label">Department</label>
+                            <select name="department" id="department" class="form-select" required>
+                                <option value="" disabled {{ 'selected' if not form_data else '' }}>Select department</option>
+                                {% for dept in departments %}
+                                <option value="{{ dept }}" {{ 'selected' if form_data and form_data.department==dept else '' }}>{{ dept }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="department" class="form-select-label">Department</label>
-                        <select name="department" id="department" class="form-select" required>
-                            <option value="" disabled {{ 'selected' if not form_data else '' }}>Select department
-                            </option>
-                            {% for dept in departments %}
-                            <option value="{{ dept }}" {{ 'selected' if form_data and form_data.department==dept else ''
-                                }}>{{ dept }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
+                    <!-- Section 2: Account Security -->
+                    <div class="form-section-card">
+                        <!-- Step 2: Credentials -->
+                        <div class="form-step-label">
+                            <span class="form-step-number">2</span>
+                            🔑 Account Security
+                        </div>
 
-                    <!-- Step 2: Credentials -->
-                    <div class="form-step-label" style="margin-top: var(--space-8);">
-                        <span class="form-step-number">2</span>
-                        Account Credentials
-                    </div>
-
-                    <div class="form-group">
-                        <div style="display: flex; gap: 10px; align-items: stretch;">
-                            <div class="email-input-wrapper">
-                                <input type="email" name="email" id="email" class="form-input" placeholder=" "
-                                    value="{{ form_data.email if form_data else '' }}" pattern=".*@kmclu\.ac\.in$"
-                                    title="Must be a valid @kmclu.ac.in email" required>
-                                <label for="email" class="form-label">Email (@kmclu.ac.in)</label>
-                                <span class="email-lock-icon hidden" id="email-lock-icon">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                    </svg>
-                                </span>
+                        <div class="form-group">
+                            <div style="display: flex; gap: 10px; align-items: stretch;">
+                                <div class="email-input-wrapper">
+                                    <input type="email" name="email" id="email" class="form-input" placeholder=" "
+                                        value="{{ form_data.email if form_data else '' }}" pattern=".*@kmclu\.ac\.in$"
+                                        title="Must be a valid @kmclu.ac.in email" required>
+                                    <label for="email" class="form-label">Email (@kmclu.ac.in)</label>
+                                    <span class="email-lock-icon hidden" id="email-lock-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                        </svg>
+                                    </span>
+                                </div>
+                                {% if not bypass_otp %}
+                                <button type="button" id="send-otp-btn" class="btn btn-secondary"
+                                    style="white-space: nowrap; padding: 0 1.25rem; border-radius: var(--radius-md); font-weight: 600;">
+                                    Send OTP
+                                </button>
+                                {% endif %}
                             </div>
-                            {% if not bypass_otp %}
-                            <button type="button" id="send-otp-btn" class="btn btn-secondary"
-                                style="white-space: nowrap; padding: 0 1.25rem; border-radius: var(--radius-md); font-weight: 600;">
-                                Send OTP
-                            </button>
-                            {% endif %}
-                        </div>
-                        <div id="otp-message" style="font-size: 0.85rem; margin-top: 5px; display: none;"></div>
-                        <div id="email-verified-badge" class="email-verified-success" style="display: none;">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
-                            <span>Email Verified Successfully!</span>
-                            <span class="change-email-link" id="change-email-btn">Change Email</span>
-                        </div>
-                    </div>
-
-                    {% if not bypass_otp %}
-                    <div class="form-group" id="otp-group" style="display: none;">
-                        <label class="form-select-label" style="position: static; font-size: 0.75rem; display: block; margin-bottom: 6px;">Enter 6-digit OTP</label>
-                        <div class="otp-digit-container">
-                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="0" required inputmode="numeric">
-                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="1" required inputmode="numeric">
-                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="2" required inputmode="numeric">
-                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="3" required inputmode="numeric">
-                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="4" required inputmode="numeric">
-                            <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="5" required inputmode="numeric">
-                        </div>
-                        <input type="hidden" name="otp" id="otp">
-                    </div>
-                    {% endif %}
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <input type="password" name="password" id="password" class="form-input" placeholder=" "
-                                required minlength="6">
-                            <label for="password" class="form-label">Password</label>
+                            <div id="otp-message" style="font-size: 0.85rem; margin-top: 5px; display: none;"></div>
+                            <div id="email-verified-badge" class="email-verified-success" style="display: none;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                                <span>Email Verified Successfully!</span>
+                                <span class="change-email-link" id="change-email-btn">Change Email</span>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <input type="password" name="confirm_password" id="confirm_password" class="form-input"
-                                placeholder=" " required minlength="6">
-                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                        {% if not bypass_otp %}
+                        <div class="form-group" id="otp-group" style="display: none;">
+                            <label class="form-select-label" style="position: static; font-size: 0.75rem; display: block; margin-bottom: 6px;">Enter 6-digit OTP</label>
+                            <div class="otp-digit-container">
+                                <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="0" required inputmode="numeric">
+                                <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="1" required inputmode="numeric">
+                                <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="2" required inputmode="numeric">
+                                <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="3" required inputmode="numeric">
+                                <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="4" required inputmode="numeric">
+                                <input type="text" pattern="\d" class="otp-digit-input" maxlength="1" data-index="5" required inputmode="numeric">
+                            </div>
+                            <input type="hidden" name="otp" id="otp">
+                        </div>
+                        {% endif %}
+
+                        <div class="form-row" style="margin-bottom: 0;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <input type="password" name="password" id="password" class="form-input" placeholder=" "
+                                    required minlength="6">
+                                <label for="password" class="form-label">Password</label>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <input type="password" name="confirm_password" id="confirm_password" class="form-input"
+                                    placeholder=" " required minlength="6">
+                                <label for="confirm_password" class="form-label">Confirm Password</label>
+                            </div>
                         </div>
                     </div>
 

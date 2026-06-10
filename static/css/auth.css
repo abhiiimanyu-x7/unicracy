@@ -791,3 +791,56 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Form Section Cards */
+.form-section-card {
+    background: #f8fafc;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--space-20);
+    margin-bottom: var(--space-24);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+}
+
+.form-section-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: rgba(15, 23, 42, 0.15);
+}
+
+.form-section-card .form-step-label {
+    margin-top: 0 !important;
+    margin-bottom: var(--space-16);
+    border-bottom: 1.5px dashed var(--purple);
+}
+
+body.dark-theme .form-section-card {
+    background: #1e293b;
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-theme .form-section-card .form-step-label {
+    border-bottom-color: #38bdf8;
+}
+
+body.dark-theme .auth-form-panel {
+    background: #0b0f19 !important;
+}
+
+body.dark-theme .auth-form-card {
+    background: #151e2e !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+body.dark-theme .auth-form-header h2 {
+    color: #f8fafc !important;
+}
+
+body.dark-theme .auth-form-header p {
+    color: #cbd5e1 !important;
+}
+
+body.dark-theme .auth-form-footer {
+    color: #cbd5e1 !important;
+}
+

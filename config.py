@@ -15,7 +15,7 @@ class Config:
     RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "onboarding@resend.dev")
     ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
     MOCK_EMAIL = os.getenv("MOCK_EMAIL", "false").lower() == "true"
-    BYPASS_OTP = os.getenv("BYPASS_OTP", "true").lower() == "true"
+    BYPASS_OTP = os.getenv("BYPASS_OTP", "false").lower() == "true"
     
     # OTP config
     OTP_EXPIRY_SECONDS = int(os.getenv('OTP_EXPIRY_SECONDS', 300))

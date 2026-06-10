@@ -18,7 +18,7 @@ services:
       - key: GOOGLE_REDIRECT_URI
         placeholder: "Optional: https://your-app.onrender.com/auth/google/callback"
       - key: BYPASS_OTP
-        value: "true"
+        value: "false"
       - key: RESEND_API_KEY
         placeholder: "Your Resend API Key"
       - key: RESEND_FROM_EMAIL
