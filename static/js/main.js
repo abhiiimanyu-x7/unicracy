@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const label = input.nextElementSibling;
             if (label && label.classList.contains('form-label')) {
                 // CSS handles this via :not(:placeholder-shown)
+            }
         }
     });
 });

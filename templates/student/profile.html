@@ -68,7 +68,7 @@
                         <span class="profile-detail-value">{{ user.roll_no }}</span>
                     </div>
                     <div class="profile-detail-item">
-                        <span class="profile-detail-label">Department</span>
+                        <span class="profile-detail-label">Course</span>
                         <span class="profile-detail-value">{{ user.department }}</span>
                     </div>
                     <div class="profile-detail-item">
@@ -105,7 +105,7 @@
                             <label for="name" class="form-label">Full Name</label>
                         </div>
                         <div class="form-group">
-                            <label for="department" class="form-select-label">Department</label>
+                            <label for="department" class="form-select-label">Course</label>
                             <select name="department" id="department" class="form-select">
                                 {% for dept in departments %}
                                 <option value="{{ dept }}" {{ 'selected' if user.department == dept else '' }}>{{ dept }}</option>

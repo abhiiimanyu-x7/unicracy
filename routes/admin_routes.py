@@ -257,6 +257,10 @@ def change_password():
 @admin_required
 def manage_admins():
     """Manage admin users (create and list teacher/admin users)."""
+    if session.get('is_teacher'):
+        flash('Access denied. Only super administrators can manage admin accounts.', 'error')
+        return redirect(url_for('admin.dashboard'))
+
     if request.method == 'POST':
         name = request.form.get('name', '').strip()
         email = request.form.get('email', '').strip().lower()

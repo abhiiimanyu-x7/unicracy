@@ -162,6 +162,7 @@ def admin_login():
             session['user_name'] = user['name']
             session['user_role'] = 'admin'
             session['user_email'] = user['email']
+            session['is_teacher'] = user.get('is_teacher', False)
             session.permanent = True
             
             flash('Welcome to the Control Room.', 'success')

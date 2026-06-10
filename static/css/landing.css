@@ -281,7 +281,12 @@
     gap: var(--space-8);
     color: var(--text-muted);
     font-size: 0.75rem;
-    animation: float 3s ease-in-out infinite;
+    animation: scroll-float 2.5s ease-in-out infinite;
+}
+
+@keyframes scroll-float {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-10px); }
 }
 
 .scroll-line {
