@@ -12,8 +12,8 @@ class Config:
     
     # Email config
     BREVO_API_KEY = os.getenv("BREVO_API_KEY")
-    BREVO_FROM_EMAIL = os.getenv("BREVO_FROM_EMAIL", "noreply@unicracy.com")
-    BREVO_FROM_NAME = os.getenv("BREVO_FROM_NAME", "UNICRACY Team")
+    BREVO_FROM_EMAIL = os.getenv("BREVO_FROM_EMAIL")
+    BREVO_FROM_NAME = os.getenv("BREVO_FROM_NAME", "Unicracy")
     ADMIN_EMAIL = os.getenv("ADMIN_EMAIL")
     MOCK_EMAIL = os.getenv("MOCK_EMAIL", "false").lower() == "true"
     BYPASS_OTP = os.getenv("BYPASS_OTP", "false").lower() == "true"

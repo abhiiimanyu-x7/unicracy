@@ -18,6 +18,8 @@ def send_otp_email(to_email, otp):
     if not Config.BREVO_API_KEY:
         print("Warning: BREVO_API_KEY not configured. OTP not sent.")
         return False
+
+    print("Brevo sender:", Config.BREVO_FROM_EMAIL)
         
     subject = "Your UNICRACY Registration OTP"
     body = f"""

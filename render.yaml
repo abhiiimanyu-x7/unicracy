@@ -22,4 +22,4 @@ services:
       - key: BREVO_API_KEY
         placeholder: "Your Brevo API Key"
       - key: BREVO_FROM_EMAIL
-        value: "noreply@unicracy.com"
+        placeholder: "Your verified Brevo sender email address"
